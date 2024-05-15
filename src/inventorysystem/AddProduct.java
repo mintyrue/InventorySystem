@@ -2,17 +2,16 @@ package inventorysystem;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
-/**
- *
- * @author Shanelle
- */
+
 public class AddProduct extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AddProduct
-     */
+    private Connection connect() throws SQLException {
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/InventorySystem", "root", "");
+    }
+        
     public AddProduct() {
         initComponents();
     }
@@ -55,35 +54,35 @@ public class AddProduct extends javax.swing.JFrame {
 
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Category:");
 
         jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Product ID:");
 
         jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Product Name:");
 
         jTextField6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setText("Stock:");
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setText("Quantity:");
 
         jTextField7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Price:");
 
         jTextField8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setText("Manufacturing Date:");
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setText("Add Product");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -91,10 +90,10 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Expiration Date:");
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton2.setText("Return");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -102,7 +101,7 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setText("Batch No.:");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -117,44 +116,47 @@ public class AddProduct extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(213, 213, 213)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(69, 69, 69)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel5)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel6)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel8)
-                        .addComponent(jLabel9)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
+                .addGap(110, 110, 110)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField1)
+                    .addComponent(jTextField6)
+                    .addComponent(jTextField7)
+                    .addComponent(jTextField8)
+                    .addComponent(jTextField2))
+                .addGap(77, 77, 77))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField6)
-                            .addComponent(jTextField7)
-                            .addComponent(jTextField8)
-                            .addComponent(jTextField2))
-                        .addGap(77, 77, 77))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(137, 137, 137))))
+                        .addGap(213, 213, 213)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(237, 237, 237)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addContainerGap()
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -188,11 +190,9 @@ public class AddProduct extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addGap(57, 57, 57)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(0, 19, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(26, 26, 26))
         );
 
         pack();
@@ -202,38 +202,37 @@ public class AddProduct extends javax.swing.JFrame {
         String Category = jTextField1.getText();
         String Product_ID = jTextField2.getText();
         String Product_Name = jTextField3.getText();
-        String Stock = jTextField4.getText();
+        String Quantity = jTextField4.getText();
         String Price = jTextField5.getText();
         String Manufacturing_Date = jTextField6.getText();
         String Expiration_Date = jTextField7.getText();
         String Batch_No = jTextField8.getText();
 
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/InventorySystem","root","");
-            String query = "insert into Inventory(Category, Product_ID, Product_Name, Stock, Price, Manufacturing_Date, Expiration_Date, Batch_No) values('"+Category+"','"+Product_ID+"','"+Product_Name+"','"+Stock+"','"+Price+"','"+Manufacturing_Date+"','"+Expiration_Date+"','"+Batch_No+"')";
-            Statement smt3=con.createStatement();
-            //ResultSet   rs=smt3.executeQueryUpdate(query);
+        try (Connection con = connect()) {
+            
+            String query = "INSERT INTO inventory (Category, Product_ID, Product_Name, Quantity, Price, Manufacturing_Date, Expiration_Date, Batch_No) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement statement = con.prepareStatement(query)) {
+            statement.setString(1, Category);
+            statement.setString(2, Product_ID);
+            statement.setString(3, Product_Name);
+            statement.setString(4, Quantity);
+            statement.setString(5, Price);
+            statement.setString(6, Manufacturing_Date);
+            statement.setString(7, Expiration_Date);
+            statement.setString(8, Batch_No);
 
-            int success=smt3.executeUpdate(query);
-            if(success==1)
-            {
-                JOptionPane.showMessageDialog(this, "Product Successfully Added ");
-                //emp1.showMessageDialog(this, "Problem in Saving. Retry");
-            }
-            else
-            {
-
+            int success = statement.executeUpdate();
+            if (success == 1) {
+                JOptionPane.showMessageDialog(this, "Product Successfully Added");
+            } else {
                 JOptionPane.showMessageDialog(this, "Problem in Saving. Retry");
             }
-
         }
-
-        catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
     }//GEN-LAST:event_jButton1MouseClicked
-    }
+
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         this.setVisible(false);
         MainFrame mm = new MainFrame();

@@ -65,8 +65,9 @@ public class Inventory extends javax.swing.JFrame {
             new Object [][] {
             },
             new String [] {
-                "Category", "Product_ID", "Product_Name", "Stock", "Price", "Manufacturing_Date", "Expiration_Date", "Batch_No"
+                "Category", "Product_ID", "Product_Name", "Quantity", "Price", "Manufacturing_Date", "Expiration_Date", "Batch_No"
             }
+
         ));
         jScrollPane1.setViewportView(jTable1);
 
@@ -89,27 +90,29 @@ public class Inventory extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(31, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1108, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41))
             .addGroup(layout.createSequentialGroup()
                 .addGap(504, 504, 504)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)))
                 .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(54, Short.MAX_VALUE))
@@ -130,6 +133,7 @@ public class Inventory extends javax.swing.JFrame {
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
         try {
             Class.forName("java.sql.DriverManager");
             Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/InventorySystem", "root", "");
@@ -142,13 +146,13 @@ public class Inventory extends javax.swing.JFrame {
                 String category = rs.getString("Category");
                 String pID = rs.getString("Product_ID");
                 String pName = rs.getString("Product_Name");
-                String stock = rs.getString("Stock");
+                String quantity = rs.getString("Quantity");
                 String price = rs.getString("Price");
                 String mfd = rs.getString("Manufacturing_Date");
                 String exp = rs.getString("Expiration_Date");
                 String batchNo = rs.getString("Batch_No");
 
-                model.addRow(new Object[] {category, pID, pName, stock, price, mfd, exp, batchNo});
+                model.addRow(new Object[] {category, pID, pName, quantity, price, mfd, exp, batchNo});
             }
             rs.close();
             //stmt.close();
